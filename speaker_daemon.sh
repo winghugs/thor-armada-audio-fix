@@ -1,15 +1,18 @@
 #!/bin/bash
 
+# setup profile defaults
 SPEAKER_PRESET="thor"
-DEFAULT_PRESET="decksp.default"
+HEADPHONE_PRESET="default.default"
 FLATPAK_ID="me.timschneeberger.jdsp4linux"
-
 LAST_STATE=""
+
+# setup display environment variables so gamemode works
 export DISPLAY=:0
 export WAYLAND_DISPLAY=wayland-0
 export XDG_RUNTIME_DIR=/run/user/$(id -u)
 
 
+# check if jamesDSP is running and launch it if not
 jamesdsp_check() {
     if ! pgrep -f "jdsp4linux" > /dev/null; then
         echo "JamesDSP not running. Launching..."
@@ -18,13 +21,16 @@ jamesdsp_check() {
     fi
 }
 
+# start james dsp
 jamesdsp_check
 
+# change presets every time pulse changes state
 update_preset() {
     jamesdsp_check
    
     CURRENT_SINK=$(pactl get-default-sink)
 
+	# this is specific to the thor, if you adapt for your own device, change the sink
     if [[ "$CURRENT_SINK" == "alsa_output.platform-sound.HiFi__Speaker__sink"  ]]; then
         STATE="SPEAKERS"
     else
@@ -35,7 +41,7 @@ update_preset() {
         if [ "$STATE" == "SPEAKERS" ]; then
             flatpak run me.timschneeberger.jdsp4linux --load-preset "$SPEAKER_PRESET"
         else
-            flatpak run me.timschneeberger.jdsp4linux --load-preset "$DEFAULT_PRESET"
+            flatpak run me.timschneeberger.jdsp4linux --load-preset "$HEADPHONE_PRESET"
         fi
         LAST_STATE="$STATE"
     fi
@@ -43,6 +49,7 @@ update_preset() {
 
 update_preset
 
+# monitor for pulse audio states
 pactl subscribe | while read -r line; do
     if echo "$line" | grep -qE "Event '(change|new)' on (server|sink)"; then
         update_preset
