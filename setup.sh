@@ -29,6 +29,7 @@ echo "Installing Thor speaker fix..."
 CURRENT_DIR="$(pwd)"
 PRESET_DIR="$HOME/.var/app/me.timschneeberger.jdsp4linux/config/jamesdsp/presets/"
 SYSTEMD_CONFIG="$HOME/.config/systemd/user/"
+DAEMON_FOLDER="$HOME/.config/jdspthorfix/"
 
 # install jamesDSP as a user
 flatpak --user install me.timschneeberger.jdsp4linux -y
@@ -36,6 +37,7 @@ flatpak --user install me.timschneeberger.jdsp4linux -y
 # setup folders
 mkdir -p "$PRESET_DIR"
 mkdir -p "$SYSTEMD_CONFIG"
+mkdir -p "$DAEMON_FOLDER"
 
 # put the files where they need to be
 cd "$PRESET_DIR"
@@ -43,6 +45,9 @@ wget -q --show-progress https://raw.githubusercontent.com/winghugs/thor-armada-a
 wget -q --show-progress https://raw.githubusercontent.com/winghugs/thor-armada-audio-fix/refs/heads/main/default.default.conf
 cd "$SYSTEMD_CONFIG"
 wget -q --show-progress https://raw.githubusercontent.com/winghugs/thor-armada-audio-fix/refs/heads/main/jamesdsp-auto.service
+cd "$DAEMON_FOLDER"
+wget -q --show-progress https://raw.githubusercontent.com/winghugs/thor-armada-audio-fix/refs/heads/main/speaker_deamon.sh
+chmod +x speaker_daemon.sh
 cd "$CURRENT_DIR"
 
 # add and start service
