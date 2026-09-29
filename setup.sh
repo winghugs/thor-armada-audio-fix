@@ -1,11 +1,23 @@
 #!/bin/bash
-set -e
+set -Ee
 
 # root check
 if [ $(id -u) -eq 0 ]
   then echo "Please do not run this script as root, try again without sudo."
   exit
 fi
+
+# don't continue if something fails
+error_handler() {
+    local exit_code="$?"
+    echo ""
+    echo "Script failed with exit code $exit_code."
+    echo "Something went wrong. Check the output for errors."
+}
+
+trap error_handler ERR
+
+echo "This line will never be reached because of set -e"
 
 echo "**** WARNING ****"
 echo "This script is specifically meant to install the JamesDSP speaker profile used by projects OTPTweaks/ThorTune."
