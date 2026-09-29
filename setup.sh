@@ -49,12 +49,12 @@ mkdir -p "$DAEMON_FOLDER"
 
 # put the files where they need to be
 cd "$PRESET_DIR"
-wget https://raw.githubusercontent.com/winghugs/thor-armada-audio-fix/refs/heads/main/thor.conf
-wget https://raw.githubusercontent.com/winghugs/thor-armada-audio-fix/refs/heads/main/default.default.conf
+curl https://raw.githubusercontent.com/winghugs/thor-armada-audio-fix/refs/heads/main/thor.conf > thor.conf
+curl https://raw.githubusercontent.com/winghugs/thor-armada-audio-fix/refs/heads/main/default.default.conf > default.default.conf
 cd "$SYSTEMD_CONFIG"
-wget https://raw.githubusercontent.com/winghugs/thor-armada-audio-fix/refs/heads/main/jamesdsp-auto.service
+curl https://raw.githubusercontent.com/winghugs/thor-armada-audio-fix/refs/heads/main/jamesdsp-auto.service > jamesdsp-auto.service
 cd "$DAEMON_FOLDER"
-wget https://raw.githubusercontent.com/winghugs/thor-armada-audio-fix/refs/heads/main/speaker_daemon.sh
+curl https://raw.githubusercontent.com/winghugs/thor-armada-audio-fix/refs/heads/main/speaker_daemon.sh > speaker_daemon.sh
 chmod +x speaker_daemon.sh
 cd "$CURRENT_DIR"
 
