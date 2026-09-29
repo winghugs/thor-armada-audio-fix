@@ -32,6 +32,7 @@ SYSTEMD_CONFIG="$HOME/.config/systemd/user/"
 DAEMON_FOLDER="$HOME/.config/jdspthorfix/"
 
 # install jamesDSP as a user
+flatpak --user remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 flatpak --user install me.timschneeberger.jdsp4linux -y
 
 # setup folders
