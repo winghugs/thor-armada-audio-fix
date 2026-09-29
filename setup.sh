@@ -33,7 +33,14 @@ DAEMON_FOLDER="$HOME/.config/jdspthorfix/"
 
 # install jamesDSP as a user
 flatpak --user remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
-flatpak --user install me.timschneeberger.jdsp4linux -y
+
+if ! flatpak --user info me.timschneeberger.jdsp4linux &>/dev/null; then
+    echo "Installing JamesDSP."
+    flatpak --user install -y flathub me.timschneeberger.jdsp4linux
+else
+    echo "JamesDSP is already installed, continuing."
+fi
+
 
 # setup folders
 mkdir -p "$PRESET_DIR"
