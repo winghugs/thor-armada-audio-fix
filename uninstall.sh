@@ -21,15 +21,17 @@ echo "Uninstalling speaker fix"
 
 PRESET_DIR="$HOME/.var/app/me.timschneeberger.jdsp4linux/config/jamesdsp/presets/"
 SYSTEMD_CONFIG="$HOME/.config/systemd/user/"
+DAEMON_FOLDER="$HOME/.config/jdspthorfix/"
 
 # disable the service
 systemctl --user stop jamesdsp-auto || true
 systemctl --user disable jamesdsp-auto || true
 
 # kill all the downloaded files
-rm "$PRESET_DIR/thor.conf"
-rm "$PRESET_DIR/default.default.conf"
-rm "$SYSTEMD_CONFIG/jamesdsp-auto.service"
+rm -f "$PRESET_DIR/thor.conf"
+rm -f "$PRESET_DIR/default.default.conf"
+rm -f "$SYSTEMD_CONFIG/jamesdsp-auto.service"
+rm -rf "$DAEMON_FOLDER"
 
 # add and start service
 systemctl --user daemon-reload
