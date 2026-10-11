@@ -7,7 +7,7 @@ FLATPAK_ID="me.timschneeberger.jdsp4linux"
 LAST_STATE=""
 
 # setup display environment variables so gamemode works
-export DISPLAY=:0
+export DISPLAY="${DISPLAY:-}"
 export WAYLAND_DISPLAY=wayland-0
 export XDG_RUNTIME_DIR=/run/user/$(id -u)
 
