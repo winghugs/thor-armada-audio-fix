@@ -7,16 +7,24 @@ FLATPAK_ID="me.timschneeberger.jdsp4linux"
 LAST_STATE=""
 
 # setup display environment variables so gamemode works
-export WAYLAND_DISPLAY=wayland-0
+export WAYLAND_DISPLAY="${WAYLAND_DISPLAY:-wayland-0}"
+export DISPLAY="${DISPLAY:-:0}"
 export XDG_RUNTIME_DIR=/run/user/$(id -u)
 
 
+while ! pactl info &> /dev/null; do
+    sleep 2
+done
+
 # check if jamesDSP is running and launch it if not
 jamesdsp_check() {
-    if ! pgrep -f "jdsp4linux" > /dev/null; then
+    if ! pgrep -f "jamesdsp" > /dev/null; then
         echo "JamesDSP not running. Launching..."
-	flatpak --user run $FLATPAK_ID --tray &
-	sleep 2
+	    flatpak --user run $FLATPAK_ID --tray &
+	    sleep 10
+	    if ! pgrep -f "jamesdsp" > /dev/null; then
+            echo "ERROR: Failed to launch JamesDSP."
+        fi
     fi
 }
 
